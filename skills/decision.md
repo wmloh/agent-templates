@@ -1,11 +1,17 @@
 ---
 name: decision
-description: Manage persistent project-wide decisions only when explicitly invoked with $decision, make decision, use decision, or update decision. 
+description: Manage persistent project-wide decisions. Automatically use stored decisions when the task or project instructions indicate relevance; make or update decisions only when explicitly requested.
 ---
 
 # Decision
 
-Keep concise project-wide constraints in a local, untracked `decisions/` directory. This skill is explicit-only; do not invoke automatically for ordinary tasks or mentions of decisions. If invoked without a clear mode, ask whether the user wants `make`, `use`, or `update`.
+Keep concise project-wide constraints in a local, untracked `decisions/` directory.
+
+## Invocation
+
+- `use` may be invoked automatically only when the task or inspected project instructions indicate that stored decisions may be relevant. Do not check the store automatically at the start of every task.
+- `make` and `update` require an explicit user request; never invoke them automatically.
+- The user may explicitly invoke this skill with `$decision`, `make decision`, `use decision`, or `update decision`. If explicitly invoked without a clear mode, ask whether the user wants `make`, `use`, or `update`.
 
 ## Project and storage
 
@@ -30,7 +36,7 @@ Keep concise project-wide constraints in a local, untracked `decisions/` directo
 1. Read the map and the files relevant to the task. Search the remaining decision files when the map alone cannot resolve relevance or a requested rule cannot be found.
 2. If the store is absent, report that no decisions have been recorded; do not create it. If a requested decision is missing or ambiguous, report that and ask for clarification rather than inventing a rule.
 3. Briefly explain the relevant constraints and their concrete implications for the current task, citing aspect files. Apply them during the task; do not treat this invocation as permission to rewrite the store.
-4. If a task instruction conflicts with a stored decision, explain the conflict and ask before affected edits whether the user wants a one-time exception or a persistent update. An exception leaves storage unchanged; an explicit persistent change follows `update`. Continue independent work when possible.
+4. If a task instruction conflicts with a stored decision, explain the conflict. If the user has explicitly authorized an exception or replacement, follow that instruction without asking again; otherwise ask before affected edits whether the user wants a one-time exception or a persistent update. An exception leaves storage unchanged; only an explicit request to persist the change follows `update`. Continue independent work when possible.
 
 ## Update decision
 

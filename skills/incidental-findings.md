@@ -7,6 +7,10 @@ description: Record concrete issues unrelated to the requested task that surface
 
 Track concrete, unrelated issues that become visible while completing the user's requested task. This skill supplements the task; it must not expand, delay, or replace it.
 
+## Invocation
+
+Invoke only when the user explicitly requests this skill. Do not invoke automatically when an unrelated issue appears during another task.
+
 ## Boundaries
 
 - Use only observations surfaced by work already required for the task: relevant file inspection, commands, tests, builds, runtime checks, tool responses, or user-provided evidence.
