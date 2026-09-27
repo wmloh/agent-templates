@@ -16,7 +16,7 @@ This repository contains provider-agnostic templates for agent skills and projec
 
 Ask the agent in the target environment to read these templates and install the skills using that environment's supported locations, file structure, metadata, and invocation syntax. Install or adapt `INIT_AGENT.md` as a reusable initialization procedure, then invoke it when setting up or updating a project. Its interview produces project-specific instructions; do not copy the procedure wholesale into the project's instruction file.
 
-Keep the contents almost exactly the same. Make changes only for a specific compatibility requirement or an explicit user request, and preserve the workflows, invocation rules, and unanswered-question rule.
+Keep the contents almost exactly the same. Make changes only for a specific compatibility requirement, agent provider Markdown formatting requirements, or an explicit user request, and preserve the workflows, invocation rules, and unanswered-question rule.
 
 For example, if `request_user_input` does not exist, replace it with an available tool that serves the same purpose and use only parameters that tool supports. If no suitable tool exists, ask the questions in conversation. Preserve the requirement to wait for answers. If the environment cannot honor a required behavior, explain the incompatibility and consult the user before changing that behavior.
 
