@@ -1,6 +1,6 @@
 # Initialize project instructions
 
-Use this file to initialize or update repository instructions for a new or existing project. Produce a concise root `AGENTS.md`, four modular workflow files, and a compact `PROJECT_MAP.md`. This file is the initialization procedure; do not copy the entire procedure into `AGENTS.md`.
+Use this file to initialize or update repository instructions for a new or existing project. Produce a concise root `AGENTS.md`, four modular workflow files, and a compact `PROJECT_MAP.yml`. This file is the initialization procedure; do not copy the entire procedure into `AGENTS.md`.
 
 Assume the `probe-me` and `decision` skills are available. Read their actual instructions when using them; do not invent their interfaces.
 
@@ -47,7 +47,7 @@ Preserve these core rules:
 - For substantial features or experimental changes whose intended behavior is unclear, ask clarifying questions before editing and use `probe-me` as appropriate. Always honor an explicit invocation of that skill. Prefer multiple-choice questions and challenge proposals constructively.
 - Do not overwrite result files, checkpoints, Parquet data, experiment caches, or plots. Use new output locations for authorized runs.
 - Read workflow files only when their triggers apply. For a task spanning workflows, read each applicable file; do not load all files merely because they are linked.
-- Consult [PROJECT_MAP.md](PROJECT_MAP.md) when locating work or understanding repository structure. Update it in the same change when a feature is added or removed; also correct affected entries when features or entry points move.
+- The project map is in [PROJECT_MAP.yml](PROJECT_MAP.yml). Consult it when locating work or understanding repository structure. It is a concise YAML map that roughly follows the directory tree; it need not describe every file. Group related files or summarize whole directories, especially as the project grows. Update it in the same change when a feature is added or removed; also correct affected entries when features or entry points move.
 
 Include a routing table of this form, adapted to confirmed project status:
 
@@ -58,7 +58,7 @@ Include a routing table of this form, adapted to confirmed project status:
 | [REVIEW_WORKFLOW.md](REVIEW_WORKFLOW.md) | Reviewing code, designs, experiments, or written work. |
 | [PAPER_WORKFLOW.md](PAPER_WORKFLOW.md) | Writing or editing a research paper or managing its requests. |
 
-Mark inactive workflows in the table so agents need not open them. A later request that activates an inactive workflow should trigger a targeted clarification and update of its status. Link `PROJECT_MAP.md` separately as a navigation resource, not as mandatory reading for every task.
+Mark inactive workflows in the table so agents need not open them. A later request that activates an inactive workflow should trigger a targeted clarification and update of its status. Link `PROJECT_MAP.yml` separately as a navigation resource, not as mandatory reading for every task.
 
 ### Workflow file structure
 
@@ -77,19 +77,20 @@ Generate **all four** workflow files above, even when some are inactive. Each sh
 - Activate only when the user asks to create, track, or complete a task. Ordinary code edits and initialization alone do not require a task ledger.
 - If `TASKS.md` is absent when this workflow is activated, create it. Preserve existing IDs and content; assign unused IDs for new entries.
 - Use exactly two sections in `TASKS.md`, in this order: `Completed` and `Pending`.
-- List completed tasks under `Completed` as one-sentence bullet points, preserving their task IDs and relative order. When the user asks to condense or compact `TASKS.md`, summarize each fully completed task and its subtasks in one concise, broad sentence, then remove those subtasks.
-- Under `Pending`, use exactly two tiers of checkboxes. Outer items describe high-level tasks and start with IDs such as `T-01`; inner items describe one narrow local subtask per sentence and start with IDs such as `T-01.1`. An optional tag follows the ID.
+- For detailed task entries in `Pending`, use exactly two tiers of checkboxes. Outer items describe high-level tasks and start with IDs such as `T-01`; inner items describe one narrow local subtask per sentence and start with IDs such as `T-01.1`. An optional tag follows the ID.
+- When a task is completed, check its boxes and place it under `Completed`, but do not automatically condense or remove its subtasks. Keep the detailed entries available so the user can review or uncheck them. Only condense `TASKS.md` when the user explicitly asks to condense or compact it; then summarize each fully completed task as a one-sentence bullet, preserving task IDs and their relative order, broadly integrating the subtask outcomes, and removing those subtasks. Keep incomplete tasks under `Pending`.
+
+  Example after an explicit compaction:
 
   ```markdown
   ## Completed
 
-  - T-01 Implement the agreed feature and complete its lightweight validation.
+  - T-01 Implemented the agreed feature and validated its entry point.
 
   ## Pending
 
-  - [ ] T-02 Implement the agreed feature.
-    - [ ] T-02.1 #code Add the entry point.
-    - [ ] T-02.2 #check Run the agreed lightweight validation.
+  - [ ] T-02 Implement the next agreed feature.
+    - [ ] T-02.1 #code Add its entry point.
   ```
 
 - Mark work complete only when its stated outcome is achieved; do not check off blocked or merely proposed work.
@@ -124,18 +125,17 @@ Generate **all four** workflow files above, even when some are inactive. Each sh
 - Place a matching TODO comment, such as `%TODO REQ-014`, at the relevant `.tex` location. Adapt comment syntax for other confirmed authoring formats.
 - When the user invokes the `decision` skill and the corresponding decision is found, or supplies the requested BibTeX key, apply the resolution and remove the resolved request and matching TODO. Preserve unrelated requests. Follow the actual skill instructions.
 
-### PROJECT_MAP.md: compact repository navigation
+### PROJECT_MAP.yml: compact repository navigation
 
-- Describe the repository's purpose and the principal directories, features, entry points, and relevant workflows. Link important source/configuration/documentation paths that actually exist.
-- Prefer a compact table mapping each feature or area to its location, role, and relevant workflow. Identify artifact directories without listing or loading their contents.
-- For directories with many files, map the directory or relevant groups of files rather than listing every file individually.
+- Write valid YAML that roughly follows the repository's directory tree. Describe its purpose and the principal directories, features, entry points, and relevant workflows using concise descriptions beside path keys. Include important source, configuration, and documentation paths that actually exist.
+- The map need not describe every file. Summarize whole directories or group related file keys under a shared description; for example, `"{util.py, io.py}": general utils`. Grouping is generally encouraged as the project grows. Identify artifact directories without listing or loading their contents.
 - For a new repository, distinguish planned structure from existing files. Do not fabricate modules, commands, or completed features.
 - Avoid exhaustive file inventories, copied code, and implementation detail that will quickly go stale.
 - Require updates when features are added or removed, and when mapped locations change. Keep this maintenance instruction in `AGENTS.md` so it applies across workflows.
 
 ## 4. Check and hand off
 
-- Verify that `AGENTS.md`, all four workflow files, and `PROJECT_MAP.md` exist; generated relative links resolve; status and routing agree; and the files do not contradict each other or unresolved existing policies.
+- Verify that `AGENTS.md`, all four workflow files, and `PROJECT_MAP.yml` exist; the YAML is valid; generated relative links resolve; status and routing agree; and the files do not contradict each other or unresolved existing policies.
 - Check that the interview included at least six questions, explicitly including domain and environment; remove unsupported environment assumptions and unconfirmed commands.
 - Ensure `AGENTS.md` stays concise and workflow detail remains in the relevant file. Do not create `TASKS.md`, `REQUESTS.md`, tests, or other support files merely to demonstrate the format.
 - Report files created or updated, important confirmed choices, and any unresolved limitations. Initialization authorizes instruction-file work, not implementation, experiments, dependency changes, or unrelated cleanup.
