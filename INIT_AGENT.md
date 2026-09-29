@@ -76,12 +76,20 @@ Generate **all four** workflow files above, even when some are inactive. Each sh
 
 - Activate only when the user asks to create, track, or complete a task. Ordinary code edits and initialization alone do not require a task ledger.
 - If `TASKS.md` is absent when this workflow is activated, create it. Preserve existing IDs and content; assign unused IDs for new entries.
-- Use exactly two tiers of checkboxes, with no sections or filler. Outer items describe high-level tasks and start with IDs such as `T-01`; inner items describe one narrow local subtask per sentence and start with IDs such as `T-01.1`. An optional tag follows the ID.
+- Use exactly two sections in `TASKS.md`, in this order: `Completed` and `Pending`.
+- List completed tasks under `Completed` as one-sentence bullet points, preserving their task IDs and relative order. When the user asks to condense or compact `TASKS.md`, summarize each fully completed task and its subtasks in one concise, broad sentence, then remove those subtasks.
+- Under `Pending`, use exactly two tiers of checkboxes. Outer items describe high-level tasks and start with IDs such as `T-01`; inner items describe one narrow local subtask per sentence and start with IDs such as `T-01.1`. An optional tag follows the ID.
 
   ```markdown
-  - [ ] T-01 Implement the agreed feature.
-    - [ ] T-01.1 #code Add the entry point.
-    - [ ] T-01.2 #check Run the agreed lightweight validation.
+  ## Completed
+
+  - T-01 Implement the agreed feature and complete its lightweight validation.
+
+  ## Pending
+
+  - [ ] T-02 Implement the agreed feature.
+    - [ ] T-02.1 #code Add the entry point.
+    - [ ] T-02.2 #check Run the agreed lightweight validation.
   ```
 
 - Mark work complete only when its stated outcome is achieved; do not check off blocked or merely proposed work.
