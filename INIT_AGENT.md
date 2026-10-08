@@ -76,18 +76,18 @@ Generate **all four** workflow files above, even when some are inactive. Each sh
 
 - Activate only when the user asks to create, track, or complete a task. Ordinary code edits and initialization alone do not require a task ledger.
 - If `TASKS.md` is absent when this workflow is activated, create it. Preserve existing IDs and content; assign unused IDs for new entries.
-- Use exactly two sections in `TASKS.md`, in this order: `Completed` and `Pending`.
-- For detailed task entries in `Pending`, use exactly two tiers of checkboxes. Outer items describe high-level tasks and start with IDs such as `T-01`; inner items describe one narrow local subtask per sentence and start with IDs such as `T-01.1`. An optional tag follows the ID.
-- When a task is completed, check its boxes and place it under `Completed`, but do not automatically condense or remove its subtasks. Keep the detailed entries available so the user can review or uncheck them. Only condense `TASKS.md` when the user explicitly asks to condense or compact it; then summarize each fully completed task as a one-sentence bullet, preserving task IDs and their relative order, broadly integrating the subtask outcomes, and removing those subtasks. Keep incomplete tasks under `Pending`.
+- Use exactly two sections in `TASKS.md`, in this order: `History` and `Current`.
+- For detailed task entries in `Current`, use exactly two tiers of checkboxes. Outer items describe high-level tasks and start with IDs such as `T-01`; inner items describe one narrow local subtask per sentence and start with IDs such as `T-01.1`. An optional tag follows the ID.
+- When a task is completed, check its boxes in-place. Keep the detailed entries available so the user can review or uncheck them. Only condense `TASKS.md` when the user explicitly asks to condense or compact it; then summarize each fully completed task as a one-sentence bullet in `History`, preserving task IDs and their relative order, broadly integrating the subtask outcomes, and removing those subtasks. Keep incomplete tasks under `Current`.
 
   Example after an explicit compaction:
 
   ```markdown
-  ## Completed
+  ## History
 
   - T-01 Implemented the agreed feature and validated its entry point.
 
-  ## Pending
+  ## Current
 
   - [ ] T-02 Implement the next agreed feature.
     - [ ] T-02.1 #code Add its entry point.
