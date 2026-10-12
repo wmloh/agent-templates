@@ -28,7 +28,7 @@ An example installation request:
 
 ## Initialize instructions for each project
 
-For each new or existing project, copy and paste the contents of [INIT_AGENT.md](INIT_AGENT.md) into an agent conversation in that project, then ask the agent to follow those instructions. The interview produces or updates that project's `AGENTS.md`, workflow files, and `PROJECT_MAP.md`. Do not copy the procedure wholesale into `AGENTS.md`. The globally installed `probe-me` and `decision` skills must be available to the agent.
+For each new or existing project, copy and paste the contents of [INIT_AGENT.md](INIT_AGENT.md) into an agent conversation in that project, then ask the agent to follow those instructions. The interview produces or updates that project's `AGENTS.md`, five workflow files, and `PROJECT_MAP.yml`. Do not copy the procedure wholesale into `AGENTS.md`. The globally installed `probe-me` and `decision` skills must be available to the agent.
 
 An example request to send after pasting `INIT_AGENT.md` in the project conversation:
 
