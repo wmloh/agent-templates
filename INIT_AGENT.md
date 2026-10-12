@@ -145,6 +145,7 @@ Generate **all five** workflow files above, even when some are inactive. Each sh
 ### PROJECT_MAP.yaml: compact repository navigation
 
 - Interpret map path keys relative to the parent project root, where `PROJECT_MAP.yaml` also lives. Write valid YAML that roughly follows the repository's directory tree. Describe its purpose and the principal directories, features, entry points, and relevant workflows using concise descriptions beside path keys. Include important source, configuration, and documentation paths that actually exist.
+- Never include workflow or instruction files in the project map, including root `AGENTS.md` and any files under `workflows/`.
 - The map need not describe every file. Summarize whole directories or group related file keys under a shared description; for example, `"{util.py, io.py}": general utils`. Grouping is generally encouraged as the project grows. Identify artifact directories without listing or loading their contents.
 - For a new repository, distinguish planned structure from existing files. Do not fabricate modules, commands, or completed features.
 - Avoid exhaustive file inventories, copied code, and implementation detail that will quickly go stale.
