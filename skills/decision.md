@@ -5,7 +5,7 @@ description: Manage persistent project-wide decisions. Automatically use stored 
 
 # Decision
 
-Keep concise project-wide constraints in a local, untracked `decisions/` directory.
+Keep concise project-wide constraints in the local, untracked `workflows/decisions/` directory.
 
 ## Invocation
 
@@ -16,11 +16,12 @@ Keep concise project-wide constraints in a local, untracked `decisions/` directo
 ## Project and storage
 
 - Resolve the project root with `git rev-parse --show-toplevel` from the task's working directory. If there is no Git repository, explain that this workflow requires one and ask for the intended repository; do not initialize Git or create a store there.
-- Store aspect files at `<root>/decisions/<aspect>.txt`, using short, descriptive lowercase hyphenated names. Each file contains plain text bullets, one concise decision per bullet, without metadata or narrative.
-- Keep `decisions/DECISION_MAP.json` as a JSON object mapping each aspect filename without `.txt` to a brief, one-sentence description. Avoid redundant phrases such as "decisions about". Each key must correspond to one aspect file and every aspect file must have a key.
+- If a legacy `<root>/decisions/` store exists while `workflows/decisions/` does not, do not initialize a duplicate or move/delete the legacy store automatically. Preserve it and ask for authorization to migrate it, following the repository-boundary and tracked-file checks below.
+- Store aspect files at `<root>/workflows/decisions/<aspect>.txt`, using short, descriptive lowercase hyphenated names. Each file contains plain text bullets, one concise decision per bullet, without metadata or narrative.
+- Keep `workflows/decisions/DECISION_MAP.json` as a JSON object mapping each aspect filename without `.txt` to a brief, one-sentence description. Avoid redundant phrases such as "decisions about". Each key must correspond to one aspect file and every aspect file must have a key.
 - Give each aspect a distinct scope and keep each decision in exactly one file. For example, `training.txt` could contain `- Do not use Adam optimizer; use SGD instead.` The map describes the aspect, not a second copy of its decisions.
-- Only `make` initializes a missing store. Resolve the local exclude file using `git rev-parse --git-path info/exclude`, including when `.git` is a worktree pointer. Preserve its contents and add `/decisions/` once before writing decision files. Never use tracked `.gitignore` for this purpose.
-- Check whether anything in `decisions/` is already tracked before mutations. If so, stop and explain that local excludes cannot hide tracked files; ask how the user wants to handle them. Do not untrack files automatically. Verify the store is ignored with `git check-ignore` after initialization.
+- Only `make` initializes a missing store. If `workflows/` is its own Git repository, resolve its local exclude file with `git -C workflows rev-parse --git-path info/exclude`, including when `.git` is a worktree pointer, and add `/decisions/` once. Otherwise resolve the parent repository's exclude file with `git rev-parse --git-path info/exclude` and add `/workflows/decisions/` once. Preserve existing contents and never use tracked `.gitignore` for this purpose.
+- Check whether anything in `workflows/decisions/` is already tracked by the repository that contains it before mutations. If so, stop and explain that local excludes cannot hide tracked files; ask how the user wants to handle them. Do not untrack files automatically. Verify the store is ignored with `git -C workflows check-ignore` when `workflows/` is its own repository, or `git check-ignore` from the project root otherwise.
 - Local exclusion keeps the store out of ordinary Git status and commits; it does not make the files secret or inaccessible to filesystem tools. Never stage or commit the store.
 
 ## Make decision
