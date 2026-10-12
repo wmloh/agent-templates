@@ -28,7 +28,7 @@ An example installation request:
 
 ## Initialize instructions for each project
 
-For each new or existing project, copy and paste the contents of [INIT_AGENT.md](INIT_AGENT.md) into an agent conversation in that project, then ask the agent to follow those instructions. The interview produces or updates that project's `AGENTS.md`, five workflow files, and `PROJECT_MAP.yml`. Do not copy the procedure wholesale into `AGENTS.md`. The globally installed `probe-me` and `decision` skills must be available to the agent.
+For each new or existing project, copy and paste the contents of [INIT_AGENT.md](INIT_AGENT.md) into an agent conversation in that project, then ask the agent to follow those instructions. The interview produces or updates that project's root `AGENTS.md`, root `PROJECT_MAP.yaml`, and a `workflows/` directory containing five workflow files. `PROJECT_MAP.yaml` is the only generated workflow item tracked by the main project repository. Task ledgers, paper requests, and memory notes also live in `workflows/` when needed. The parent project's local Git exclusions contain `/AGENTS.md` and `/workflows/`; `workflows/` has its own Git repository for tracking personal instructions and support files. Synchronize that repository through a separate remote and restore it on each device, where the parent exclusions and root `AGENTS.md` must also be established. Do not copy the procedure wholesale into `AGENTS.md`. The globally installed `probe-me` and `decision` skills must be available to the agent.
 
 An example request to send after pasting `INIT_AGENT.md` in the project conversation:
 
