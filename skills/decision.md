@@ -5,7 +5,7 @@ description: Manage persistent project-wide decisions. Automatically use stored 
 
 # Decision
 
-Keep concise project-wide constraints in the local, untracked `workflows/decisions/` directory.
+Keep concise project-wide constraints in the tracked `<root>/workflows/decisions/` directory.
 
 ## Invocation
 
@@ -16,13 +16,11 @@ Keep concise project-wide constraints in the local, untracked `workflows/decisio
 ## Project and storage
 
 - Resolve the project root with `git rev-parse --show-toplevel` from the task's working directory. If there is no Git repository, explain that this workflow requires one and ask for the intended repository; do not initialize Git or create a store there.
-- If a legacy `<root>/decisions/` store exists while `workflows/decisions/` does not, do not initialize a duplicate or move/delete the legacy store automatically. Preserve it and ask for authorization to migrate it, following the repository-boundary and tracked-file checks below.
+
 - Store aspect files at `<root>/workflows/decisions/<aspect>.txt`, using short, descriptive lowercase hyphenated names. Each file contains plain text bullets, one concise decision per bullet, without metadata or narrative.
 - Keep `workflows/decisions/DECISION_MAP.json` as a JSON object mapping each aspect filename without `.txt` to a brief, one-sentence description. Avoid redundant phrases such as "decisions about". Each key must correspond to one aspect file and every aspect file must have a key.
 - Give each aspect a distinct scope and keep each decision in exactly one file. For example, `training.txt` could contain `- Do not use Adam optimizer; use SGD instead.` The map describes the aspect, not a second copy of its decisions.
-- Only `make` initializes a missing store. If `workflows/` is its own Git repository, resolve its local exclude file with `git -C workflows rev-parse --git-path info/exclude`, including when `.git` is a worktree pointer, and add `/decisions/` once. Otherwise resolve the parent repository's exclude file with `git rev-parse --git-path info/exclude` and add `/workflows/decisions/` once. Preserve existing contents and never use tracked `.gitignore` for this purpose.
-- Check whether anything in `workflows/decisions/` is already tracked by the repository that contains it before mutations. If so, stop and explain that local excludes cannot hide tracked files; ask how the user wants to handle them. Do not untrack files automatically. Verify the store is ignored with `git -C workflows check-ignore` when `workflows/` is its own repository, or `git check-ignore` from the project root otherwise.
-- Local exclusion keeps the store out of ordinary Git status and commits; it does not make the files secret or inaccessible to filesystem tools. Never stage or commit the store.
+- Only `make` initializes a missing store.
 
 ## Make decision
 
@@ -53,4 +51,5 @@ Keep concise project-wide constraints in the local, untracked `workflows/decisio
 - Before compacting or moving decisions, account for each original constraint in the proposed result. Merge only when the replacement is semantically equivalent; do not generalize into a stronger or weaker rule. Prefer separate precise bullets when equivalence is uncertain.
 - Read all affected files before edits and preserve unrelated or concurrent changes. Write destination content before removing source content when reorganizing. Keep each file focused and concise; split by distinct aspects when needed rather than imposing an arbitrary size limit.
 - Treat a missing or invalid map in a nonempty store as an inconsistency, not an empty store. Inspect existing text files and repair the map during an authorized `make` or `update` only when their scopes are clear; otherwise ask. `use` may read existing files and report the inconsistency without repairing it.
-- After mutations, parse the map as JSON, verify the one-to-one correspondence with aspect files, and review affected content for duplicated or contradictory rules and lost constraints. Confirm that the store remains locally excluded and untracked.
+- After mutations, parse the map as JSON, verify the one-to-one correspondence with aspect files, and review affected content for duplicated or contradictory rules and lost constraints.
+
