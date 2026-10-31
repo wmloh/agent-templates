@@ -5,7 +5,7 @@ description: Review uncommitted code before a commit, report findings, summarize
 
 # Appraise Code
 
-Review the current working tree and explain what a cohesive commit should contain. Cover code review findings, a summary of changes, a suggested commit message, and anything closely related that may have been missed. Do not modify files, stage changes, create commits, or run tests unless separately asked.
+Review the current working tree and explain what a cohesive commit should contain. Cover code review findings, a summary of changes, a suggested commit message, and anything closely related that may have been missed. Do not stage changes or create commits. Do not modify files or run tests unless separately asked.
 
 ## Invocation
 

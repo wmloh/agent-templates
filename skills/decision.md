@@ -5,7 +5,9 @@ description: Manage persistent project-wide decisions. Automatically use stored 
 
 # Decision
 
-Keep concise project-wide constraints in the tracked `<root>/workflows/decisions/` directory.
+Keep concise human-initiated project-wide instructions in `<root>/workflows/decisions/`, tracked by the independent Git repository rooted at `<root>/workflows/` and excluded from the main project repository.
+
+Decisions persist until the user changes them. Memory in `workflows/memory/` is agent-initiated record keeping and provisional working choices; it expands, contracts, and is refreshed according to recency, priority, and frequency of reuse. Memory may refer to decisions but must not override them, retire them as stale, or promote working choices into permanent instructions without an explicit user request. Keep agent resume and process details in memory; `docs/` and established human documentation should prioritize accurate, readable explanations of project ideas and usage over exhaustive implementation detail.
 
 ## Invocation
 
@@ -15,7 +17,9 @@ Keep concise project-wide constraints in the tracked `<root>/workflows/decisions
 
 ## Project and storage
 
-- Resolve the project root with `git rev-parse --show-toplevel` from the task's working directory. If there is no Git repository, explain that this workflow requires one and ask for the intended repository; do not initialize Git or create a store there.
+- Resolve the main project root with `git rev-parse --show-toplevel` from a project directory outside nested `workflows/`. If working inside `workflows/`, use and verify the established main project root; ask if it is unclear rather than treating workflow Git as the main project. If there is no main Git repository, explain that this workflow requires one and ask for the intended repository; do not initialize the main repository or create a store there.
+- Before writes, verify that the main repository's local exclude file, resolved with `git rev-parse --git-path info/exclude`, excludes `/workflows/`, and that `git -C <root>/workflows rev-parse --show-toplevel` resolves exactly to `<root>/workflows`. If setup is missing, report it and follow the project's authorized workflow setup procedure before writing. Do not create a further Git repository under `decisions/` or track decisions in the main project.
+- Keep aspect files and `DECISION_MAP.json` eligible for tracking in workflow Git. Do not stage or commit any files, whether workflow or project files; leave those actions to the user. Check for ignore conflicts, preserve existing staged changes, and report new decision files awaiting user staging. Remote synchronization requires the project's existing authorization and must not stage files or create commits.
 
 - Store aspect files at `<root>/workflows/decisions/<aspect>.txt`, using short, descriptive lowercase hyphenated names. Each file contains plain text bullets, one concise decision per bullet, without metadata or narrative.
 - Keep `workflows/decisions/DECISION_MAP.json` as a JSON object mapping each aspect filename without `.txt` to a brief, one-sentence description. Avoid redundant phrases such as "decisions about". Each key must correspond to one aspect file and every aspect file must have a key.

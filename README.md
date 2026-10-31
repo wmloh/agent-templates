@@ -2,6 +2,8 @@
 
 This repository contains provider-agnostic templates for agent skills and project instructions. Install the skills once in your target environment. For each project, use `INIT_AGENT.md` to initialize its instructions. The files here are source templates; they are not ready-to-use project instructions or an installation package for a particular provider.
 
+This README is for humans browsing and using this repository. During project initialization, the agent receives only [INIT_AGENT.md](INIT_AGENT.md); this README is not supplied. Keep all initialization requirements in `INIT_AGENT.md`, with ongoing rules carried into the generated project instructions, so no agent behavior depends on this README.
+
 ## Contents
 
 | Template | Purpose | Automatic invocation |
@@ -28,7 +30,11 @@ An example installation request:
 
 ## Initialize instructions for each project
 
-For each new or existing project, copy and paste the contents of [INIT_AGENT.md](INIT_AGENT.md) into an agent conversation in that project, then ask the agent to follow those instructions. The interview produces or updates that project's root `AGENTS.md`, root `PROJECT_MAP.yaml`, and a `workflows/` directory containing five workflow files. `PROJECT_MAP.yaml` is the only generated workflow item tracked by the main project repository. Task ledgers, paper requests, and memory notes also live in `workflows/` when needed. The parent project's local Git exclusions contain `/AGENTS.md` and `/workflows/`; `workflows/` has its own Git repository for tracking personal instructions and support files. Synchronize that repository through a separate remote and restore it on each device, where the parent exclusions and root `AGENTS.md` must also be established. Do not copy the procedure wholesale into `AGENTS.md`. The globally installed `probe-me` and `decision` skills must be available to the agent.
+For each new or existing project, copy and paste the contents of [INIT_AGENT.md](INIT_AGENT.md) into an agent conversation in that project, then ask the agent to follow those instructions. Install the `probe-me` and `decision` skills in that environment beforehand.
+
+The interview produces or updates root `AGENTS.md`, root `PROJECT_MAP.yaml`, and the workflow files you select under `workflows/`. Available workflows cover code, tasks, review, paper, memory, and tools. The project map is tracked with the main project; workflow instructions and support files use a separate Git repository under `workflows/`. Root `AGENTS.md` remains outside both repositories.
+
+For cross-device use, synchronize and restore the workflow repository separately from the main project, and establish the local exclusions and root `AGENTS.md` on each device using the initialization procedure.
 
 An example request to send after pasting `INIT_AGENT.md` in the project conversation:
 
