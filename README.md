@@ -12,7 +12,7 @@ This README is for humans browsing and using this repository. During project ini
 | [decision](skills/decision.md) | Record, apply, and update persistent project decisions. | `use` only, when the task or project instructions indicate relevance. `make` and `update` require an explicit request. |
 | [incidental-findings](skills/incidental-findings.md) | Report unrelated issues observed during required work without expanding the task. | No; explicit request required. |
 | [probe-me](skills/probe-me.md) | Inspect and question an implementation request before changing files. | Yes, for complex or consequential implementation requests; also available explicitly. |
-| [INIT_AGENT.md](INIT_AGENT.md) | Interview the user and generate or merge project instructions, workflow files, and a project map. | Run when explicitly asked to initialize or update project instructions. |
+| [INIT_AGENT.md](INIT_AGENT.md) | Interview the user and generate or merge initial project instructions, workflow files, and a project map. | Run when explicitly asked to initialize project instructions; subsequent template updates use the generated `UPDATE_WORKFLOW.md` on explicit request. |
 
 ## Install skills
 
@@ -32,10 +32,22 @@ An example installation request:
 
 For each new or existing project, copy and paste the contents of [INIT_AGENT.md](INIT_AGENT.md) into an agent conversation in that project, then ask the agent to follow those instructions. Install the `probe-me` and `decision` skills in that environment beforehand.
 
-The interview produces or updates root `AGENTS.md`, root `PROJECT_MAP.yaml`, and the workflow files you select under `workflows/`. Available workflows cover code, tasks, review, paper, memory, and tools. The project map is tracked with the main project; workflow instructions and support files use a separate Git repository under `workflows/`. Root `AGENTS.md` remains outside both repositories.
+The interview produces or merges root `AGENTS.md`, root `PROJECT_MAP.yaml`, and workflows under `workflows/`. Every project receives `UPDATE_WORKFLOW.md`; optional workflows cover code, tasks, review, paper, memory, and tools. After initialization and checks, the supplied template is moved to `workflows/INIT_AGENT.md` as an unmodified comparison baseline. If you supplied only pasted contents, the agent saves those contents there instead. The project map is tracked with the main project; workflow instructions, the template baseline, and support files use a separate Git repository under `workflows/`. Root `AGENTS.md` remains outside both repositories.
 
 For cross-device use, synchronize and restore the workflow repository separately from the main project, and establish the local exclusions and root `AGENTS.md` on each device using the initialization procedure.
 
 An example request to send after pasting `INIT_AGENT.md` in the project conversation:
 
-> Follow the INIT_AGENT.md instructions I just pasted to initialize or update this project's AGENTS.md and related instruction files. Inspect the project, ask the required questions, and preserve existing project-specific instructions.
+> Follow the INIT_AGENT.md instructions I just pasted to initialize this project's AGENTS.md and related instruction files. Inspect the project, ask the required questions, and preserve existing project-specific instructions.
+
+## Update an initialized project
+
+Explicitly ask the agent to follow `workflows/UPDATE_WORKFLOW.md` to update project instructions. It fetches the latest public template from the fixed raw GitHub URL, diffs it against `workflows/INIT_AGENT.md`, and reconciles upstream changes with project customizations. If the template is unchanged, no instruction update is needed. Otherwise, the agent interviews you with `probe-me`, presents a table of proposed changes, and waits for your approval before editing `AGENTS.md` and the approved workflow instruction files. After the approved update and verification are complete, it replaces the saved baseline with the exact reviewed template copy. Other project files remain untouched.
+
+You can also request updates to named skills, alongside instructions or on their own. The agent compares their public sources with the confirmed installed files, preserves local and provider adaptations, and uses the same interview and approval process. Skill comparisons proceed independently when the project template is unchanged; skills-only updates leave the template baseline unchanged. Confirmed skill installations may be outside the project, and updating a shared installation affects other projects using it.
+
+Example requests:
+
+> Follow UPDATE_WORKFLOW.md to update this project's instructions from the latest template while preserving its customizations.
+
+> Follow UPDATE_WORKFLOW.md to update only the installed probe-me and decision skills. Leave project instructions unchanged.
