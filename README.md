@@ -12,7 +12,7 @@ This README is for humans browsing and using this repository. During project ini
 | [decision](skills/decision.md) | Record, apply, and update persistent project decisions. | `use` only, when the task or project instructions indicate relevance. `make` and `update` require an explicit request. |
 | [incidental-findings](skills/incidental-findings.md) | Report unrelated issues observed during required work without expanding the task. | No; explicit request required. |
 | [probe-me](skills/probe-me.md) | Inspect and question an implementation request before changing files. | Yes, for complex or consequential implementation requests; also available explicitly. |
-| [INIT_AGENT.md](INIT_AGENT.md) | Interview the user and generate or merge initial project instructions, workflow files, a project map, and a customization record. | Run when explicitly asked to initialize project instructions; subsequent template updates use the generated `UPDATE_WORKFLOW.md` on explicit request. |
+| [INIT_AGENT.md](INIT_AGENT.md) | Interview the user and generate or merge initial project instructions, workflow files, a project map, a customization record, and optionally a private OffPrint showcase repository. | Run when explicitly asked to initialize project instructions; subsequent template updates use the generated `UPDATE_WORKFLOW.md` on explicit request. |
 
 ## Install skills
 
@@ -32,7 +32,7 @@ An example installation request:
 
 For each new or existing project, copy and paste the contents of [INIT_AGENT.md](INIT_AGENT.md) into an agent conversation in that project, then ask the agent to follow those instructions. Install the `probe-me` and `decision` skills in that environment beforehand.
 
-The interview produces or merges root `AGENTS.md`, root `PROJECT_MAP.yaml`, and workflows under `workflows/`. Every project receives `UPDATE_WORKFLOW.md`; optional workflows cover code, tasks, review, paper, memory, and tools. After initialization and checks, the supplied template is moved to `workflows/init/INIT_AGENT.md` as an unmodified comparison baseline. If you supplied only pasted contents, the agent saves those contents there instead. Alongside it, `workflows/init/PROJECT_CUSTOMIZATION.md` records your confirmed interview answers and every project-specific deviation from the template in a strict, compact format. The project map is tracked with the main project; workflow instructions, the template baseline, the customization record, and support files use a separate Git repository under `workflows/`.
+The interview produces or merges root `AGENTS.md`, root `PROJECT_MAP.yaml`, and workflows under `workflows/`. Every project receives `UPDATE_WORKFLOW.md` and `TASK_WORKFLOW.md`; optional workflows cover code, review, paper, memory, tools, and OffPrint sites. After initialization and checks, the supplied template is moved to `workflows/init/INIT_AGENT.md` as an unmodified comparison baseline. If you supplied only pasted contents, the agent saves those contents there instead. Alongside it, `workflows/init/PROJECT_CUSTOMIZATION.md` records your confirmed interview answers and every project-specific deviation from the template in a strict, compact format. The project map is tracked with the main project; workflow instructions, the template baseline, the customization record, and support files use a separate Git repository under `workflows/`. If you select the sites workflow, initialization also creates a separate private `showcase/` Git repository for [OffPrint](https://github.com/wmloh/offprint) sites under `showcase/sites/`, with a clone of the library at `showcase/offprint/` that stays its own repository and is linked into each site.
 
 To set up a related project, for example another project on the same device, supply that project's `PROJECT_CUSTOMIZATION.md` with the pasted template. The agent still runs the full interview but offers the inherited facts and deviations as defaults for you to keep, adapt, or drop. Root `AGENTS.md` remains outside both repositories.
 
@@ -48,8 +48,12 @@ Explicitly ask the agent to follow `workflows/UPDATE_WORKFLOW.md` to update proj
 
 You can also request updates to named skills, alongside instructions or on their own. The agent compares their public sources with the confirmed installed files, preserves local and provider adaptations, and uses the same interview and approval process. Skill comparisons proceed independently when the project template is unchanged; skills-only updates leave the template baseline unchanged. Confirmed skill installations may be outside the project, and updating a shared installation affects other projects using it.
 
+With the sites workflow, you can also explicitly ask to update the OffPrint library. The agent fast-forwards `showcase/offprint/` and reviews the library's commit log and documentation changes since the version in `showcase/OFFPRINT_COMMIT`. It then adjusts a single site directly, or, for several sites, asks before adding one task per site to the task ledger.
+
 Example requests:
 
 > Follow UPDATE_WORKFLOW.md to update this project's instructions from the latest template while preserving its customizations.
 
 > Follow UPDATE_WORKFLOW.md to update only the installed probe-me and decision skills. Leave project instructions unchanged.
+
+> Follow UPDATE_WORKFLOW.md to update only the OffPrint library and adapt the sites to its changes.
